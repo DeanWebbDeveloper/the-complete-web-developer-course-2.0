@@ -1,0 +1,87 @@
+<html>
+
+    <head>
+
+        <title>jQuery</title>
+
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+        <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+
+        <style type="text/css">
+
+
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="accordion">
+
+            <h3>Part 1</h3>
+
+                <div>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus leo at sem luctus sagittis. Quisque eu odio tellus. Pellentesque a purus non eros volutpat pretium ut eget augue. Proin ac lacus velit. Mauris facilisis nibh sit amet magna efficitur, nec iaculis justo aliquam. Vivamus eget neque at dui facilisis dignissim. Phasellus vel finibus nisl, non sollicitudin mauris. In aliquet fringilla lorem, sit amet hendrerit risus feugiat ut. Pellentesque suscipit dignissim dui, quis sollicitudin velit. Nunc neque sapien, scelerisque vitae laoreet et, egestas ac elit. Cras convallis sed neque non facilisis.</p>
+
+                </div>
+
+            <h3>Part 2</h3>
+
+                <div>
+
+                <p>Nunc aliquet, lectus non molestie ultricies, elit massa tempor purus, at sollicitudin nulla mi nec est. Morbi odio augue, sodales ac erat non, dignissim bibendum urna. Sed porttitor magna quis tellus laoreet pellentesque. Duis finibus sem sed libero tincidunt rutrum. Nam at nisi at mauris facilisis placerat sit amet ut neque. Nullam nunc nunc, ultricies ut neque ac, suscipit tristique augue. Sed placerat, turpis nec fermentum porta, diam est dapibus eros, sit amet consequat diam neque vitae neque. Mauris elementum ante felis. Aenean a erat commodo, mollis libero eu, cursus leo. Sed scelerisque diam eget iaculis aliquet. Nunc metus sapien, scelerisque non gravida mattis, vestibulum ut nisi. Maecenas gravida tortor non volutpat vestibulum. Phasellus eget efficitur ante. Morbi volutpat, tortor eu aliquam vulputate, felis mi feugiat est, nec consectetur orci diam nec lorem.</p>
+
+                </div>
+
+            <h3>Part 3</h3>
+
+                <div>
+
+                <p>Suspendisse tortor orci, accumsan eu condimentum et, laoreet sed tortor. Duis a felis vitae dolor mattis blandit. Duis eget neque pulvinar, dictum risus sit amet, ornare dui. Vivamus in mollis lectus. Aenean elementum, est et condimentum viverra, ipsum massa pretium urna, ac molestie dolor felis mollis arcu. Morbi suscipit est id massa tincidunt, sed ultricies nisl imperdiet. Pellentesque sit amet lectus nulla. Nulla facilisi. Duis at elit in elit tempus maximus non ac eros. Duis non tempor ligula. Nulla at rhoncus arcu. Nullam vestibulum sollicitudin nunc, quis pulvinar est auctor quis. Proin convallis ex ac lobortis placerat. Phasellus auctor nisi eu dapibus lobortis. Aenean fringilla, sem id auctor mattis, risus tellus vulputate nunc, facilisis pharetra purus libero eget orci. Proin nec ipsum aliquam, hendrerit mi sit amet, pellentesque libero.</p>
+
+                </div>
+
+            <h3>Part 4</h3>
+
+                <div>
+
+                <p>Proin quis ultricies leo. Nam cursus nunc mauris, vitae venenatis ligula sollicitudin eu. Duis dictum vehicula elit, et lobortis quam convallis vitae. Proin varius, sapien nec porttitor feugiat, lorem tellus tempor enim, at hendrerit mi libero quis leo. Nulla sed sem sodales, hendrerit nisi quis, sollicitudin ipsum. Sed ligula tortor, consequat at elit id, pharetra suscipit elit. Nam eget metus pellentesque, ultrices ipsum quis, ultrices lacus. Morbi justo erat, pharetra finibus sapien ut, sollicitudin vehicula diam. Fusce dignissim, nulla eleifend congue consectetur, tortor nulla faucibus sem, vel scelerisque lorem metus eu est. Integer consequat suscipit ligula, eget efficitur ex luctus sit amet. Ut vitae leo euismod, ullamcorper urna vitae, iaculis neque. Vivamus venenatis, elit non congue malesuada, eros felis egestas massa, eu convallis neque massa et erat. Ut malesuada turpis non leo sollicitudin, et pellentesque arcu malesuada. Quisque dapibus eros elit, ut dictum mi fringilla in. Suspendisse nec urna faucibus, maximus massa a, elementum sapien. Maecenas convallis mollis ante, vitae iaculis lorem congue non.</p>
+
+                </div>
+
+                <h3>Part 5</h3>
+
+                    <div>
+
+                    <p>Etiam condimentum risus leo, dapibus finibus massa tempus eget. Pellentesque et turpis nisl. Pellentesque vel molestie mauris. Curabitur venenatis sem lorem. Vivamus rutrum, urna condimentum pharetra cursus, sem quam lacinia mauris, ut pulvinar lorem turpis ut massa. Quisque sit amet elementum odio, non congue sem. Suspendisse venenatis nisi fermentum justo congue, vitae vestibulum libero suscipit. Nullam dui velit, congue nec mauris vel, ultrices tincidunt lorem. Donec dapibus condimentum nulla ac eleifend. Suspendisse a leo iaculis, tincidunt diam sit amet, malesuada nisi. Pellentesque id justo quis ipsum commodo maximus eu vitae elit. Vivamus fringilla urna quam, vitae pharetra justo tincidunt sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse maximus risus et nisl ullamcorper, ac feugiat lorem semper. Etiam convallis scelerisque pretium.</p>
+
+                  </div>
+
+          </div>
+
+          <ul id="sortable">
+              <li>A</li>
+              <li>B</li>
+              <li>C</li>
+              <li>D</li>
+              <li>E</li>
+              <li>F</li>
+              <li>G</li>
+              <li>H</li>
+          </ul>
+
+        <script type="text/javascript">
+
+        $("#accordion").accordion();
+
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+
+        </script>
+
+    </body>
+
+</html>

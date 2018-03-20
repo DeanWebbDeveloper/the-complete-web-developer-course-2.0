@@ -1,0 +1,33 @@
+<html>
+
+    <head>
+
+        <title>jQuery</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <p></p>
+
+        <script type="text/javascript">
+
+            $.ajax("4.7 - AJAX.txt").done(function(data) {
+
+                $("p").html(data);
+
+            })
+
+                .fail(function() {
+
+                    alert("404: Could not get data");
+
+            })
+
+        </script>
+
+    </body>
+
+</html>
