@@ -1,6 +1,6 @@
 <?php
 
-    $link = mysqli_connect("localhost", "cl59-users-ato", "d!CrF.cyx", "cl59-users-ato");
+    $link = mysqli_connect("shareddb1a.hosting.stackcp.net", "cl59-users-ato", "d!CrF.cyx", "cl59-users-ato");
 
     if(mysqli_connect_error()) {
 
