@@ -1,6 +1,6 @@
 <?php
 
-    $link = mysqli_connect("localhost", "cl59-users-ato", "d!CrF.cyx", "cl59-users-ato");
+    $link = mysqli_connect("shareddb1a.hosting.stackcp.net", "cl59-users-ato", "d!CrF.cyx", "cl59-users-ato");
 
     if(mysqli_connect_error()) {
 
@@ -8,14 +8,14 @@
 
     }
 
-    //$query = "INSERT INTO `users` (`email`, `password`)
-    //VALUES ('halibut@live.co.uk', 'pidgeon')";
+    //$query =  "INSERT INTO `users` (`email`, `password`)
+    //          VALUES ('jane.doe@email.com','squarecircle555')";
 
-    $query = "UPDATE `users` SET password = '123456@gmail.com' WHERE email = 'webb.christopher@live.co.uk' LIMIT 1";
+    $query = "UPDATE `users` SET `password` = 'Super_Secure-Password12345' WHERE `email` LIKE 'johnnysmith@email.com' LIMIT 1";
 
     mysqli_query($link, $query);
 
-    $query = "SELECT * FROM users";
+    $query = "SELECT * FROM `users`";
 
     if ($result = mysqli_query($link, $query)) {
 
