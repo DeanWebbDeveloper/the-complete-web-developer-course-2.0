@@ -42,25 +42,21 @@
 
             if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
 
-                $email = $_POST["email"];
-
-                $password = $_POST["password"];
-
                 $error = "";
 
-                if ($email && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+                if ($_POST["email"] && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) === false) {
 
                     $error .= ("The email address provided is invalid. <br/>");
 
                 }
 
-                if ($email == null) {
+                if ($_POST["email"] == null) {
 
                     $error .= ("You have not input an email. <br/>");
 
                 }
 
-                if ($password == null) {
+                if ($_POST["password"] == null) {
 
                     $error .= ("You have not input a password. <br/>");
 
@@ -80,7 +76,7 @@
 
                     };
 
-                    $email_check = "SELECT * FROM users WHERE email = '".mysqli_real_escape_string($link, $email)."'";
+                    $email_check = "SELECT * FROM users WHERE email = '".mysqli_real_escape_string($link, $_POST["email"])."'";
 
                     $result = mysqli_query($link, $email_check);
 
@@ -90,7 +86,7 @@
 
                     } else {
 
-                        $query = "INSERT INTO `users` (email, password) VALUES ('".mysqli_real_escape_string($link, $email)."', '".mysqli_real_escape_string($link, $password)."')";
+                        $query = "INSERT INTO `users` (email, password) VALUES ('".mysqli_real_escape_string($link, $_POST["email"])."', '".mysqli_real_escape_string($link, $_POST["password"])."')";
 
                         if (mysqli_query($link, $query)) {
 
