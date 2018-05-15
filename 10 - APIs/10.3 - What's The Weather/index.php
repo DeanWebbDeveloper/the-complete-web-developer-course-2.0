@@ -5,119 +5,135 @@
 
     if ($_GET['city']) {
 
-     $urlContents = file_get_contents("http://api.openweathermap.org/data/2.5/weather?q=".urlencode($_GET['city']).",uk&appid=4b6cbadba309b7554491c5dc66401886");
+      $url = "http://api.openweathermap.org/data/2.5/weather?q=" . rawurlencode($_GET['city']) . "&appid=c320f38054db9fff28682e0ceb376e59";
 
-        $weatherArray = json_decode($urlContents, true);
+      //print_r($url);
 
-        if ($weatherArray['cod'] == 200) {
+      $urlContents =  file_get_contents($url);
 
-            $weather = "The weather in ".$_GET['city']." is currently '".$weatherArray['weather'][0]['description']."'. ";
+      //print_r($urlContents);
 
-            $tempInCelcius = intval($weatherArray['main']['temp'] - 273);
+      $weatherArray = json_decode($urlContents, true);
 
-            $weather .= " The temperature is ".$tempInCelcius."&deg;C and the wind speed is ".$weatherArray['wind']['speed']."m/s.";
+      //print_r($weatherArray);
 
-        } else {
+      if($weatherArray["cod"] == "200") {
 
-            $error = "Could not find city - please try again.";
+        $weather = "<div id='success' class='alert alert-success'>The weather in <strong>" . $_GET['city'] . "</strong> is currently <strong>'" . $weatherArray['weather'][0]['description'] . "'</strong>.";
 
-        }
+        $tempInCelcius = $weatherArray['main']['temp'] - 273;
 
-    }
+        $weather .= " The temperature is <strong>" . round($tempInCelcius) . "&deg;C</strong> and the wind speed is <strong>" . $weatherArray['wind']['speed'] . "m/s<strong>.</div>";
 
+      } else {
+
+        $error = "<div id='danger' class='alert alert-danger'>The city you have entered could not be found, please try again.</div>";
+
+      };
+
+    };
 
 ?>
 
+<!doctype html>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags always come first -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<html>
 
-      <title>Weather Scraper</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+<head>
 
-      <style type="text/css">
+    <title>PHP Project - Weather Scraper</title>
 
-      html {
-          background: url(images/background.jpeg) no-repeat center center fixed;
-          -webkit-background-size: cover;
-          -moz-background-size: cover;
-          -o-background-size: cover;
-          background-size: cover;
-          }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/css/tether.min.css" integrity="sha256-y4TDcAD4/j5o4keZvggf698Cr9Oc7JZ+gGMax23qmVA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
 
-          body {
-
-              background: none;
-
-          }
-
-          .container {
-
-              text-align: center;
-              margin-top: 100px;
-              width: 450px;
-
-          }
-
-          input {
-
-              margin: 20px 0;
-
-          }
-
-          #weather {
-
-              margin-top:15px;
-
-          }
-
-      </style>
-
-  </head>
-  <body>
-
-      <div class="container">
-
-          <h1>What's The Weather?</h1>
-
-
-
-          <form>
-  <fieldset class="form-group">
-    <label for="city">Enter the name of a city.</label>
-    <input type="text" class="form-control" name="city" id="city" placeholder="Eg. London, Tokyo" value = "<?php echo $_GET['city']; ?>">
-  </fieldset>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-          <div id="weather"><?php
-
-              if ($weather) {
-
-                  echo '<div class="alert alert-success" role="alert">
-  '.$weather.'
-</div>';
-
-              } else if ($error) {
-
-                  echo '<div class="alert alert-danger" role="alert">
-  '.$error.'
-</div>';
-
-              }
-
-              ?></div>
-      </div>
-
-    <!-- jQuery first, then Bootstrap JS. -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.min.js" integrity="sha256-m2ByX2d6bw2LPNGOjjELQGPrn6XyouMV9RuVzKhJ5hA=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
-  </body>
+
+    <style>
+
+        body {
+
+            background: url(images/background.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+        }
+
+        .container {
+
+            text-align: center;
+            padding-top: 100px;
+
+        }
+
+    </style>
+
+    <!--<script>
+
+    $(document).ready(function() {
+
+        $("form").submit(function(event) {
+
+                var error = "";
+
+            if($("#city").val() == "") {
+
+                error += "You have not typed in a city!";
+
+            };
+
+            if (error != "") {
+
+                $("#alert_box").html('<div id="error" class="alert alert-danger">' + error + '</div>');
+
+                return false;
+
+            } else {
+
+                return true;
+
+            };
+
+        });
+
+    });
+
+
+  </script>-->
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>What's the Weather?</h1>
+
+        <p>Enter the name of a city.</p>
+
+        <br />
+
+        <form method="get">
+
+            <div class="form-group">
+
+                <input class="form-control input-lg" id="city" name="city" type="text" placeholder="Type in your city here. Eg, 'London'">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    <br />
+
+    <div id="alert_box" name="alert_box"><?php echo $error; echo $weather; ?></div>
+
+    </div>
+
+</body>
+
 </html>
