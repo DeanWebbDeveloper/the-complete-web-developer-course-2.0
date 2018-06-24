@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="app.min.css">
+    <style>
+      /* TODO */
+      .section-title {
+        text-align: center;
+        padding: 10px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-page" data-page="home">
+      <div class="app-topbar blue">
+        <div class="app-title">Send An Email</div>
+      </div>
+      <div class="app-content">
+        <div class="app-section">
+          <div class="alert-msg" id="home-alert">Click below to send an email!</div>
+        </div>
+        <div class="app-section" id="prev-recip">
+          <div class="section-title"><strong>Previous Recipients</strong><br /></div>
+        </div>
+        <div class="app-section">
+          <div class="app-button" data-target="email-page">Send to new user</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-page" data-page="email-page">
+      <div class="app-topbar">
+        <div class="app-button right" data-back>Done</div>
+        <div class="app-title">Send Email</div>
+      </div>
+
+      <div class="app-content">
+
+        <div class="app-section">
+          <div class="alert-msg" id="email-alert">Click below to send an email!</div>
+        </div>
+        <div class="app-section">
+          <label for="email-from">From:</label><input type="email" class="app-input" name="email-from" placeholder="Sender's email address">
+          <label for="email-to">To:</label><input type="email" class="app-input" name="email-to" placeholder="Recipient's email address">
+        </div>
+
+        <div class="app-section">
+          <input class="app-input" name="email-subject" placeholder="Subject">
+          <textarea class="app-input" name="email-message" placeholder="Message"></textarea>
+          <div class="app-button green send-button">Send</div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="zepto.js"></script>
+    <script src="app.min.js"></script>
+    <script>
+
+
+
+      App.controller('home', function (page) {
+        // put stuff here
+      });
+
+      App.controller('email-page', function (page) {
+        // put stuff here
+
+        $getSender = localStorage.getItem("sender");
+
+        if($getSender != "") {
+          alert($getSender);
+          //console.log($("input[name=email-from]")); FIND HOW TO SET THE VALUE AS THE LOCALSTORAGE
+        };
+
+        $(page).find('.send-button')
+          .on('click', function () {
+
+            //VALIDATION START
+
+            //Declare From email, value
+            var $EmailFrom = $("input[name=email-from]");
+            var $EmailFromVal = $EmailFrom[0].value;
+            //Declare To email, value
+            var $EmailTo = $("[name=email-to]");
+            var $EmailToVal = $EmailTo[0].value;
+            //Declare Subject of email, value
+            var $EmailSub = $("[name=email-subject]");
+            var $EmailSubVal = $EmailSub[0].value;
+            //Declare Message of email, value
+            var $EmailMsg = $("[name=email-message]");
+            var $EmailMsgVal = $EmailMsg[0].value;
+
+            var $EmailError = "";
+
+            //function for email validation
+            function isEmail(email) {
+              var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+              return regex.test(email);
+            }
+
+            //From email is input, if not error, if invalid email format error
+            if ($EmailFromVal == "") {
+              $EmailError += "You have not included the sender's email<br />";
+            } else if (isEmail($EmailFromVal) == false) {
+              $EmailError += "The input for the sender's email is invalid. Please ensure it is correct.<br />";
+            };
+
+            //To email is input, if not error, if invalid email format error
+            if ($EmailToVal == "") {
+              $EmailError += "You have not included the recipient's email<br />";
+            } else if (isEmail($EmailToVal) == false) {
+              $EmailError += "The input for the recipient's email is invalid. Please ensure it is correct.<br />";
+            };
+
+
+
+
+
+
+            ////////////////TO ADD WARNING IF MESSAGE OR SUBJECT IS EMPTY/////////////////////
+
+
+
+
+
+
+            //If error, display and reset error, else show confirm message
+            if($EmailError != "") {
+              $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailError + "</p>");
+              $EmailError = "";
+            } else {    //If successful, do stuff
+              $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
+              $EmailError = "";
+
+              //VALIDATION END
+
+              var $EmailFromStore = localStorage.setItem("sender", $EmailFromVal);
+
+            };
+
+          });
+      });
+
+      try {
+        App.restore();
+      } catch (err) {
+        App.load('home');
+      }
+    </script>
+  </body>
+</html>
