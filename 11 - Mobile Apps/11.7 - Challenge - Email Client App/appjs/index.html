@@ -24,9 +24,12 @@
         </div>
         <div class="app-section" id="prev-recip">
           <div class="section-title"><strong>Previous Recipients</strong><br /></div>
+          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
+          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
+          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
         </div>
         <div class="app-section">
-          <div class="app-button" data-target="email-page">Send to new user</div>
+          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
         </div>
       </div>
     </div>
@@ -60,8 +63,6 @@
     <script src="app.min.js"></script>
     <script>
 
-
-
       App.controller('home', function (page) {
         // put stuff here
       });
@@ -69,28 +70,32 @@
       App.controller('email-page', function (page) {
         // put stuff here
 
-        $getSender = localStorage.getItem("sender");
+        ////////////LOOK INTO THIS BIT - PRE-POP INPUT////////////
 
-        if($getSender != "") {
-          alert($getSender);
-          //console.log($("input[name=email-from]")); FIND HOW TO SET THE VALUE AS THE LOCALSTORAGE
-        };
+            var $getSender = localStorage.getItem("sender");
+
+            if($getSender != "") {
+              $("input[name=email-from]").val($getSender);
+            };
+
+            /////////////////////////////////////////////////////
+
 
         $(page).find('.send-button')
           .on('click', function () {
 
             //VALIDATION START
 
-            //Declare From email, value
+            //Declare From email value
             var $EmailFrom = $("input[name=email-from]");
             var $EmailFromVal = $EmailFrom[0].value;
-            //Declare To email, value
+            //Declare To email value
             var $EmailTo = $("[name=email-to]");
             var $EmailToVal = $EmailTo[0].value;
-            //Declare Subject of email, value
+            //Declare Subject of email value
             var $EmailSub = $("[name=email-subject]");
             var $EmailSubVal = $EmailSub[0].value;
-            //Declare Message of email, value
+            //Declare Message of email value
             var $EmailMsg = $("[name=email-message]");
             var $EmailMsgVal = $EmailMsg[0].value;
 
@@ -116,31 +121,63 @@
               $EmailError += "The input for the recipient's email is invalid. Please ensure it is correct.<br />";
             };
 
+            //IF no subject or email, don't prevent sending but do warn the user
+            var $ConfirmMissing = [];
 
+            if ($EmailSubVal == "") {
+              $ConfirmMissing.push("Subject");
+            };
 
-
-
-
-            ////////////////TO ADD WARNING IF MESSAGE OR SUBJECT IS EMPTY/////////////////////
-
-
-
-
-
+            if ($EmailMsgVal == "") {
+              $ConfirmMissing.push("Message");
+            };
 
             //If error, display and reset error, else show confirm message
             if($EmailError != "") {
               $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailError + "</p>");
               $EmailError = "";
-            } else {    //If successful, do stuff
-              $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
-              $EmailError = "";
+            } else {    //If successful
 
-              //VALIDATION END
+              if($ConfirmMissing.length != 0) {  //If the user doesn't input a subject of message, ask to confirm
 
-              var $EmailFromStore = localStorage.setItem("sender", $EmailFromVal);
+                if ($ConfirmMissing.length == 1) {
+                  confirm("You have not included a " + $ConfirmMissing[0] + ", are you sure you want to continue?");
+                } else {
+                  confirm("You have not included a " + $ConfirmMissing[0] + " or " + $ConfirmMissing[1] + ", are you sure you want to continue?");
+                }
 
-            };
+                $ConfirmMissing = [];
+
+              };
+
+                $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
+                $EmailError = "";
+                $ConfirmMissing = [];
+
+                //VALIDATION END
+
+                function saveLocalStorage(storeName, value) {
+                  localStorage.setItem(storeName, value);
+                };
+
+                saveLocalStorage("sender", $EmailFromVal);
+
+///////////////////////////////////CREATE ARRAY OF RECIPIENTS////////////////////////////////////////////////
+
+                var $prevRecipients = [];
+                console.log($prevRecipients.length);
+
+                //for (i=0; i < $prevRecipients.length; i++) {
+                  //alert(i);
+                  //if($prevRecipients[i] != $EmailFromVal) {
+                    //$prevRecipients.push($EmailToVal);
+                  //};
+                };
+
+                console.log($prevRecipients);
+
+                ///////////////////////////////////////////
+              };
 
           });
       });
