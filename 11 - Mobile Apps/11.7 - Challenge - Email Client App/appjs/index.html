@@ -24,9 +24,11 @@
         </div>
         <div class="app-section" id="prev-recip">
           <div class="section-title"><strong>Previous Recipients</strong><br /></div>
+          <div class ="previous-recipients-div">
           <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
           <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
           <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
+          </div>
         </div>
         <div class="app-section">
           <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
@@ -63,16 +65,33 @@
     <script src="app.min.js"></script>
     <script>
 
+/*
+Further developing script, but problems with how the localkeys save/display only
+previous saved data, not from current session. once figured out to use function
+to create recipients list on home page, and save sender to email page. Then use
+php script (inc validation) to send emails
+*/
+
+      var $getSender = localStorage.getItem("sender");
+      var $getRecipients;
+
+      if(localStorage.getItem("recipients") != null) {
+        $getRecipients = JSON.parse(localStorage.getItem("recipients"));
+      };
+
       App.controller('home', function (page) {
         // put stuff here
+
+        function AddPrevRecip(text) {
+          $(".previous-recipients-div").add(text);
+        }
+
       });
 
       App.controller('email-page', function (page) {
         // put stuff here
 
         ////////////LOOK INTO THIS BIT - PRE-POP INPUT////////////
-
-            var $getSender = localStorage.getItem("sender");
 
             if($getSender != "") {
               $("input[name=email-from]").val($getSender);
@@ -150,35 +169,45 @@
 
               };
 
-                $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
-                $EmailError = "";
-                $ConfirmMissing = [];
+              $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
+              $EmailError = "";
+              $ConfirmMissing = [];
 
-                //VALIDATION END
+              //VALIDATION END
 
-                function saveLocalStorage(storeName, value) {
-                  localStorage.setItem(storeName, value);
-                };
-
-                saveLocalStorage("sender", $EmailFromVal);
-
-///////////////////////////////////CREATE ARRAY OF RECIPIENTS////////////////////////////////////////////////
-
-                var $prevRecipients = [];
-                console.log($prevRecipients.length);
-
-                //for (i=0; i < $prevRecipients.length; i++) {
-                  //alert(i);
-                  //if($prevRecipients[i] != $EmailFromVal) {
-                    //$prevRecipients.push($EmailToVal);
-                  //};
-                };
-
-                console.log($prevRecipients);
-
-                ///////////////////////////////////////////
+              function saveLocalStorage(storeName, value) {
+                localStorage.setItem(storeName, value);
               };
 
+              saveLocalStorage("sender", $EmailFromVal);
+
+              //Create array of previous recipients
+              var i = 0;
+              var $prevRecipients = [1, 2 ,4, 5];
+              var $prevNewAdd = true;
+
+              do {
+
+                if($prevRecipients[i] == $EmailToVal) {
+                  $prevNewAdd = false;
+                };
+
+                i++;
+
+              } while ( i < $prevRecipients.length );
+
+              if ($prevNewAdd == true) {
+                $prevRecipients.push($EmailToVal);
+              };
+
+              saveLocalStorage("recipients", (JSON.stringify($prevRecipients)));
+
+              alert($getRecipients);
+              alert($getSender);
+
+              //End of creating array
+
+            };
           });
       });
 
