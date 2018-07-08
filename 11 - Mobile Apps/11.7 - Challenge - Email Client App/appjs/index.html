@@ -65,12 +65,87 @@
     <script src="app.min.js"></script>
     <script>
 
+    App.controller('home', function (page) {
+
+    });
+
+    App.controller('email-page', function (page) {
+
+      //Send button has been clicked
+      $(page).find('.send-button').on('click', function(event) {
+
+        //Values
+        var $EmailFromVal = $("input[name=email-from]")[0].value;
+        var $EmailToVal = $("input[name=email-to]")[0].value;
+        var $EmailSubVal = $("input[name=email-subject]")[0].value;
+        var $EmailMsgVal = $("textarea[name=email-message]")[0].value;
+
+        //From & To Validation - Hard stop if not correct
+        function isEmail(email) {
+          var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          return regex.test(email);
+        };
+
+        var $EmailToFromError = "";
+
+        if ($EmailFromVal == "") {
+          $EmailToFromError += "You have not included the sender's email<br />";
+        } else if (isEmail($EmailFromVal) == false) {
+          $EmailToFromError += "The input for the sender's email is invalid. Please ensure it is correct.<br />";
+        };
+
+        if ($EmailToVal == "") {
+          $EmailToFromError += "You have not included the recipient's email<br />";
+        } else if (isEmail($EmailToVal) == false) {
+          $EmailToFromError += "The input for the recipient's email is invalid. Please ensure it is correct.<br />";
+        };
+
+        if ($EmailToFromError != "") {
+          $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailToFromError + "</p>");
+          event.preventDefault();
+          return false;
+        };
+
+        //Sub and Msg Validation - Warning if incomplete but allow submission
+        var $EmailSubMsgError = [];
+
+        if ($EmailSubVal == "") {
+          $EmailSubMsgError.push("Subject");
+        };
+
+        if ($EmailMsgVal == "") {
+          $EmailSubMsgError.push("Message");
+        };
+
+        //If there is something missing
+        if($EmailSubMsgError.length != 0) {
+          //If only one missing, else will be both
+          if ($EmailSubMsgError.length == 1) {
+            confirm("You have not included a " + $EmailSubMsgError[0] + ", are you sure you want to continue?");
+          } else {
+            confirm("You have not included a " + $EmailSubMsgError[0] + " or " + $EmailSubMsgError[1] + ", are you sure you want to continue?");
+          };
+        };
+
+      });
+
+    });
+
+    try {
+      App.restore();
+    } catch (err) {
+      App.load('home');
+    };
+
+
+
+
 /*
 Further developing script, but problems with how the localkeys save/display only
 previous saved data, not from current session. once figured out to use function
 to create recipients list on home page, and save sender to email page. Then use
 php script (inc validation) to send emails
-*/
+
 
       var $getSender = localStorage.getItem("sender");
       var $getRecipients;
@@ -78,6 +153,9 @@ php script (inc validation) to send emails
       if(localStorage.getItem("recipients") != null) {
         $getRecipients = JSON.parse(localStorage.getItem("recipients"));
       };
+
+      console.log($getSender);
+      console.log($getRecipients);
 
       App.controller('home', function (page) {
         // put stuff here
@@ -140,7 +218,7 @@ php script (inc validation) to send emails
               $EmailError += "The input for the recipient's email is invalid. Please ensure it is correct.<br />";
             };
 
-            //IF no subject or email, don't prevent sending but do warn the user
+            //If no subject or email, don't prevent sending but do warn the user
             var $ConfirmMissing = [];
 
             if ($EmailSubVal == "") {
@@ -152,10 +230,10 @@ php script (inc validation) to send emails
             };
 
             //If error, display and reset error, else show confirm message
-            if($EmailError != "") {
-              $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailError + "</p>");
-              $EmailError = "";
-            } else {    //If successful
+            //if($EmailError != "") {
+            //  $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailError + "</p>");
+            //  $EmailError = "";
+            if ($EmailError == "") {    //If successful
 
               if($ConfirmMissing.length != 0) {  //If the user doesn't input a subject of message, ask to confirm
 
@@ -165,48 +243,48 @@ php script (inc validation) to send emails
                   confirm("You have not included a " + $ConfirmMissing[0] + " or " + $ConfirmMissing[1] + ", are you sure you want to continue?");
                 }
 
-                $ConfirmMissing = [];
-
               };
-
-              $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
-              $EmailError = "";
-              $ConfirmMissing = [];
-
               //VALIDATION END
 
-              function saveLocalStorage(storeName, value) {
-                localStorage.setItem(storeName, value);
-              };
-
-              saveLocalStorage("sender", $EmailFromVal);
-
-              //Create array of previous recipients
-              var i = 0;
-              var $prevRecipients = [1, 2 ,4, 5];
-              var $prevNewAdd = true;
-
-              do {
-
-                if($prevRecipients[i] == $EmailToVal) {
-                  $prevNewAdd = false;
+              if (confirm) {
+                function saveLocalStorage(storeName, value) {
+                  localStorage.setItem(storeName, value);
                 };
 
-                i++;
+                saveLocalStorage("sender", $EmailFromVal);
 
-              } while ( i < $prevRecipients.length );
+                //Create array of previous recipients
+                var i = 0;
+                var $prevRecipients = ["recip@test.com", 2 ,4, 5];
+                var $prevNewAdd = true;
 
-              if ($prevNewAdd == true) {
-                $prevRecipients.push($EmailToVal);
+                do {
+
+                  if($prevRecipients[i] == $EmailToVal) {
+                    $prevNewAdd = false;
+                  };
+
+                  i++;
+
+                } while ( i < $prevRecipients.length );
+
+                if ($prevNewAdd == true) {
+                  $prevRecipients.push($EmailToVal);
+                };
+
+                saveLocalStorage("recipients", (JSON.stringify($prevRecipients)));
+
+                alert($getRecipients);
+                alert($getSender);
+
+                //End of creating array
+
+                //Set if correct
+                $("#email-alert").html("<p> The sender and recipient's emails are both correct</p>");
+
+              } else {
+                $("#email-alert").html("<p>The following errors are present in your submission. You cannot send the email until these are fixed:</p><br /><p>" + $EmailError + "</p>");
               };
-
-              saveLocalStorage("recipients", (JSON.stringify($prevRecipients)));
-
-              alert($getRecipients);
-              alert($getSender);
-
-              //End of creating array
-
             };
           });
       });
@@ -215,7 +293,7 @@ php script (inc validation) to send emails
         App.restore();
       } catch (err) {
         App.load('home');
-      }
+      }*/
     </script>
   </body>
 </html>
