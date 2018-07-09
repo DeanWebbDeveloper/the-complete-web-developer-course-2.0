@@ -24,14 +24,11 @@
         </div>
         <div class="app-section" id="prev-recip">
           <div class="section-title"><strong>Previous Recipients</strong><br /></div>
-          <div class ="previous-recipients-div">
-          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
-          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
-          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
+          <div id ="previous-recipients-div">
           </div>
         </div>
         <div class="app-section">
-          <div class="app-button" class="move-to-email" data-target="email-page">Send to new user</div>
+          <div class="app-button move-to-email" data-target="email-page">Send to new user</div>
         </div>
       </div>
     </div>
@@ -64,17 +61,48 @@
     <script src="zepto.js"></script>
     <script src="app.min.js"></script>
     <script>
+	
+	/////////////////////////All now works as expected
+	/////////////////////////Test on fresh (delete all previous localstorage)
+	/////////////////////////To add AJAX and PHP mailer
+	/////////////////////////Add PHP validation
+	/////////////////////////Add messages on email successfully sending, failing, etc
 
     App.controller('home', function (page) {
+	
+      //When app is first loaded set list of previous recipients if local storage is set, otherwise say no previous recipients
+      $(page).on('appShow', function() {	
+        if((JSON.parse(localStorage.getItem("recipients"))) == null) {
+            $("#previous-recipients-div").html('<div style="text-align: center; padding: 11px 0;">You have no previous recipients</div>');
+        } else {
+		  $("#previous-recipients-div").empty();
+          for(var $i = 0; $i < (JSON.parse(localStorage.getItem("recipients"))).length; $i++) {     
+            var $divString = '<div class="app-button move-to-email previous-recipient" data-target="email-page">' + JSON.parse(localStorage.getItem("recipients"))[$i] + '</div>';
+            $("#previous-recipients-div").append($divString);
+		  };
+		};
+      });
+      
+	  //Set 'To' on email to the selected email's text
+      $(page).on('click', '.previous-recipient', function() {
+		$("input[name=email-to]").val($(this).text());
+      });
 
     });
 
     App.controller('email-page', function (page) {
+	
+	  //Whenever page is shown (on open, load, etc), set sender if local storage is set
+      $(page).on('appShow', function() {	
+        if(localStorage.getItem("sender") != null) {
+	      $("input[name=email-from]").val(localStorage.getItem("sender"));
+	    };
+      });
 
       //Send button has been clicked
       $(page).find('.send-button').on('click', function(event) {
-
-        //Values
+	  	
+	    //Values
         var $EmailFromVal = $("input[name=email-from]")[0].value;
         var $EmailToVal = $("input[name=email-to]")[0].value;
         var $EmailSubVal = $("input[name=email-subject]")[0].value;
@@ -127,6 +155,32 @@
           };
         };
 
+		//Set 'From' sender storage value
+		localStorage.setItem("sender", $EmailFromVal);
+		
+		//Set list of recipients storage array
+        var $prevRecipients = JSON.parse(localStorage.getItem("recipients"));
+        var $AddNewRecipientStore = true;
+        
+        //If the previous recipients don't exist, create an empty array. If does exist, go through each 
+        if ($prevRecipients == null) {
+          $prevRecipients = [];
+          $AddNewRecipientStore = true
+        } else {
+          $.each($prevRecipients, function(index, value){
+            if($EmailToVal == value) {
+			  $AddNewRecipientStore = false;
+			  return false;
+			};
+          });  
+        };		
+		        
+		//If new recipient, add to array and set as storage
+        if($AddNewRecipientStore == true) {
+          $prevRecipients.push($EmailToVal);
+          localStorage.setItem("recipients", (JSON.stringify($prevRecipients)));
+        };
+		
       });
 
     });
