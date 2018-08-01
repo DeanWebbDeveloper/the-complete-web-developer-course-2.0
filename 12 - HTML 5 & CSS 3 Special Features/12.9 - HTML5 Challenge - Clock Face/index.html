@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>HTML5 Challenge - Clock Face</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <style type="text/css">
+
+      #myCanvas {
+        background-color: black;
+        border-radius: 400px;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+
+    <script type="text/javascript">
+
+      var myCanvas = document.getElementById("myCanvas");
+      var context = myCanvas.getContext("2d");
+
+      var width = myCanvas.width;
+      var centerWidth = width/2;
+      var textWidth = width - 50;
+
+      var height = myCanvas.height;
+      var centerHeight = height/2;
+      var textHeight = height - 50;
+
+
+      context.beginPath();
+      context.arc(centerWidth, centerHeight, 20, 0, 2*Math.PI)
+      context.fillStyle = "white";
+      context.fill();
+
+      context.fillStyle = "white";
+      context.font = "30px Arial";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText("12", centerWidth, (height - textHeight));
+      context.fillText("3", textWidth, centerHeight);
+      context.fillText("6", centerWidth, textHeight);
+      context.fillText("9", (width - textWidth), centerHeight);
+      context.fillText("2", centerWidth, ;
+
+      //use 350sin(30) etc but in radians
+
+
+
+    </script>
+
+  </body>
+
+</html>
