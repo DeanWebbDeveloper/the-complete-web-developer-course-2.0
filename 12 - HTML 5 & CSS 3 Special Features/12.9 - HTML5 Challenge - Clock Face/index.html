@@ -28,29 +28,80 @@
 
       var width = myCanvas.width;
       var centerWidth = width/2;
-      var textWidth = width - 50;
 
       var height = myCanvas.height;
       var centerHeight = height/2;
-      var textHeight = height - 50;
 
+      var indent = 50;
 
-      context.beginPath();
-      context.arc(centerWidth, centerHeight, 20, 0, 2*Math.PI)
-      context.fillStyle = "white";
-      context.fill();
-
+      //Numbers
       context.fillStyle = "white";
       context.font = "30px Arial";
       context.textAlign = "center";
       context.textBaseline = "middle";
-      context.fillText("12", centerWidth, (height - textHeight));
-      context.fillText("3", textWidth, centerHeight);
-      context.fillText("6", centerWidth, textHeight);
-      context.fillText("9", (width - textWidth), centerHeight);
-      context.fillText("2", centerWidth, ;
 
-      //use 350sin(30) etc but in radians
+      //for formula for number positions
+      for (var i = 1; i <= 12; i++) {
+        var numHtPos = centerHeight + ((centerHeight - indent) * (Math.sin(((i) + 9) * (Math.PI / 6))));
+        var numWdPos = centerWidth + ((centerWidth - indent) * (Math.cos(((i) + 9) * (Math.PI / 6))));
+
+        context.fillText(i, numWdPos, numHtPos);
+      };
+
+      //Getting real time
+
+      function getTime() {
+        var date = new Date();
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+
+        setTimeout(getTime, 1000);
+
+        return { h:h, m:m, s:s };
+      };
+
+      getTime();
+
+      /////////////TO DO
+
+      //SET TIMES FOR HANDS
+      //TRY AND TAKE POSITIONS VARS INTO A FUNCTION, DRY!
+      //ENSURE REAL TIME, NOT JUST ONLOAD
+
+
+      //Hour hand
+      context.moveTo(centerWidth, centerHeight);
+
+      indent = 200;
+
+      var HourHeight = centerHeight + ((centerHeight - indent) * (Math.sin(((7) + 9) * (Math.PI / 6))));
+      var HourWidth = centerWidth + ((centerWidth - indent) * (Math.cos(((7) + 9) * (Math.PI / 6))));
+
+      context.lineTo(HourWidth, HourHeight);
+      context.strokeStyle = "white";
+      context.lineWidth = 4;
+      context.stroke();
+
+      //Minute hand
+      context.moveTo(centerWidth, centerHeight);
+      context.lineTo(350, 400);
+      context.strokeStyle = "white";
+      context.lineWidth = 1;
+      context.stroke();
+
+      //Second hand
+
+
+      //Centre circle
+      context.beginPath();
+      context.arc(centerWidth, centerHeight, 20, 0*Math.PI, 2*Math.PI);
+      context.fillStyle = "white";
+      context.fill();
+
+
+
+
 
 
 
