@@ -23,118 +23,102 @@
 
     <script type="text/javascript">
 
+      //Setting up canvas and vals
       var myCanvas = document.getElementById("myCanvas");
       var context = myCanvas.getContext("2d");
-
       var width = myCanvas.width;
       var centerWidth = width/2;
-
       var height = myCanvas.height;
       var centerHeight = height/2;
 
-      var indent = 50;
+      //Getting time
+      function getTime() {
+        var date = new Date();
+        var hr = date.getHours();
+        var min = date.getMinutes();
+        var sec = date.getSeconds();
 
-      //Numbers
+        return { hr:hr, min:min, sec:sec };
+      };
+
+      //function for width and height, only needs param and widthOrHeight
+      function setWidthAndHeight(param, heightOrWidth, indent) {
+
+        var radian = ((param) + 9) * (Math.PI / 6);
+        var radLength;
+
+        if (heightOrWidth == "width") {
+          radLength = Math.cos(radian);
+        } else if (heightOrWidth == "height") {
+          radLength = Math.sin(radian);
+        }
+
+        return centerHeight + ((centerHeight - indent) * radLength);
+
+      };
+
+      //function for setting hands
+      function setHand(hrMinOrSec, indent, lineWidth) {
+
+        var time = getTime();
+        var timeVal = time[hrMinOrSec];
+
+        //If 60 units, divide by 5 to make 12 units (mins and seconds)
+        if(hrMinOrSec == "min" || hrMinOrSec == "sec") {
+          timeVal = timeVal / 5;
+        };
+
+        context.beginPath();
+        context.moveTo(centerWidth, centerHeight);
+
+        var handWidth = setWidthAndHeight(timeVal, "width", indent);
+        var handHeight = setWidthAndHeight(timeVal, "height", indent);
+
+        context.lineCap="round";
+        context.lineTo(handWidth, handHeight);
+        context.strokeStyle = "white";
+        context.lineWidth = lineWidth;
+        context.stroke();
+
+      };
+
+      //Numbers css
       context.fillStyle = "white";
       context.font = "30px Arial";
       context.textAlign = "center";
       context.textBaseline = "middle";
 
-      //for formula for number positions
-      for (var i = 1; i <= 12; i++) {
-        var numHtPos = centerHeight + ((centerHeight - indent) * (Math.sin(((i) + 9) * (Math.PI / 6))));
-        var numWdPos = centerWidth + ((centerWidth - indent) * (Math.cos(((i) + 9) * (Math.PI / 6))));
-
-        context.fillText(i, numWdPos, numHtPos);
-      };
-
-      //Getting time
-      function getTime() {
-        var date = new Date();
-        var h = date.getHours();
-        var m = date.getMinutes();
-        var s = date.getSeconds();
-
-        return { h:h, m:m, s:s };
-      };
-
-      var time = getTime();
-
-      //Set hand
-      function setHourHand() {
-
-        context.moveTo(centerWidth, centerHeight);
-
-        indent = 200;
-
-        var hourHeight = centerHeight + ((centerHeight - indent) * (Math.sin(((time.h) + 9) * (Math.PI / 6))));
-        var hourWidth = centerWidth + ((centerWidth - indent) * (Math.cos(((time.h) + 9) * (Math.PI / 6))));
-
-        context.lineTo(hourWidth, hourHeight);
-        context.strokeStyle = "white";
-        context.lineWidth = 4;
-        context.stroke();
-
-      };
-
-      function setMinuteHand() {
-
-        context.moveTo(centerWidth, centerHeight);
-
-        indent = 125;
-
-        var minuteHeight = centerHeight + ((centerHeight - indent) * (Math.sin((((time.m)/5) + 9) * (Math.PI / 6))));
-        var minuteWidth = centerWidth + ((centerWidth - indent) * (Math.cos((((time.m)/5) + 9) * (Math.PI / 6))));
-
-        context.lineTo(minuteWidth, minuteHeight);
-        context.strokeStyle = "white";
-        context.lineWidth = 2;
-        context.stroke();
-
-      };
-
-      function setSecondHand() {
-
-        context.moveTo(centerWidth, centerHeight);
-
-        indent = 50;
-
-        var secondHeight = centerHeight + ((centerHeight - indent) * (Math.sin((((time.s)/5) + 9) * (Math.PI / 6))));
-        var secondWidth = centerWidth + ((centerWidth - indent) * (Math.cos((((time.s)/5) + 9) * (Math.PI / 6))));
-
-        context.lineTo(secondWidth, secondHeight);
-        context.strokeStyle = "white";
-        context.lineWidth = 1;
-        context.stroke();
-
-      };
-
-      setHourHand();
-      setMinuteHand();
-      setSecondHand();
-
-
-      //Keep to real time, run every second
+      //Keep to real time, run canvas every second
       window.setInterval(function(){
-        setHourHand();
-        setMinuteHand();
-        setSecondHand();
-      }, 1000);
 
-      //Centre circle
-      context.beginPath();
-      context.arc(centerWidth, centerHeight, 20, 0*Math.PI, 2*Math.PI);
-      context.fillStyle = "white";
-      context.fill();
+        //Clear the canvas
+        context.clearRect(0, 0, width, height);
 
+        //Indent from edge
+        var indent = 50;
 
+        //for formula for number positions
+        for (var i = 1; i <= 12; i++) {
+          var numWidth = setWidthAndHeight(i, "width", indent);
+          var numHeight = setWidthAndHeight(i, "height", indent);
 
-      //TO DO
+          context.fillStyle = "white";
+          context.fillText(i, numWidth, numHeight);
+        };
 
-      // - set commonly used expressions to var and func - keep it DRY
-      // - at the moment, hands do not reposition but thicken on reload (window.setInterval runs formulae)
-      // - check hands are correctly positioned and equations are correct.
-      
+        //Hands
+        var hrHand = setHand("hr", 200, 8);    //hour hand
+        var minHand = setHand("min", 100, 4);   //minute hand
+        var secHand = setHand("sec", 80, 2);    //second hand
+
+        //Centre circle
+        context.beginPath();
+        context.arc(centerWidth, centerHeight, 20, 0*Math.PI, 2*Math.PI);
+        context.fillStyle = "lightgray";
+        context.fill();
+
+      });
+
     </script>
 
   </body>
