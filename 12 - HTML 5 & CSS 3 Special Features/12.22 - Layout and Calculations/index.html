@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML 5 and CSS 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <style>
+
+      #multi-column {
+
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+
+        -webkit-column-gap: 40px;
+        -moz-column-gap: 40px;
+        column-gap: 40px;
+
+        -webkit-column-rule-style: solid;
+        -moz-column-rule-style: solid;
+        column-rule-style: solid;
+
+
+        -webkit-column-rule-width: 1px;
+        -moz-column-rule-width: 1px;
+        column-rule-width: 1px;
+
+        -webkit-column-rule-color: grey;
+        -moz-column-rule-color: grey;
+        column-rule-color: grey;
+
+      }
+
+      h2 {
+
+        -webkit-column-span: all;
+        column-span: all;
+      }
+
+      header {
+
+        width: 100%;
+        height: 50px;
+        background-color: grey;
+
+      }
+
+      body {
+
+        margin: 0;
+
+      }
+
+      #container {
+
+        width: 100%;
+        background-color: yellow;
+        height: -webkit-calc(100% - 50px);
+        height: calc(100% - 50px);
+        position: absolute;
+
+      }
+
+      .flexbox-container {
+
+        display: flex;
+        display: -webkit-flex;
+        width: 100%;
+        height: 500px;
+        background-color: aqua;
+        flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        /*flex-direction: column;
+        -webkit-flex-direction: column;*/
+
+      }
+
+      .flexbox-item {
+
+        background-color: bisque;
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        box-sizing: border-box;
+
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <header></header>
+
+    <div id="container">
+
+      <div class="flexbox-container">
+
+        <div class="flexbox-item">Item 1</div>
+        <div class="flexbox-item" style="border: 5px solid grey; padding: 10px;">Item 2</div>
+        <div class="flexbox-item">Item 3</div>
+        <div class="flexbox-item">Item 4</div>
+        <div class="flexbox-item">Item 5</div>
+        <div class="flexbox-item">Item 6</div>
+        <div class="flexbox-item">Item 7</div>
+
+      </div>
+
+    </div>
+
+    <div id="multi-column">
+      <h2>News for Nerds</h2>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis
+      tortor a quam elementum consectetur vel in eros. Nullam ullamcorper nunc
+      eget odio pharetra tempor. Vivamus dapibus lectus id nunc maximus
+      tincidunt. Nulla rhoncus, lorem ut feugiat dapibus, nisi   ipsum
+      ultricies lectus, a interdum augue sem eget tortor. Integer ipsum urna,
+      tincidunt in finibus eget, convallis et neque. Curabitur vitae lectus
+      fringilla tortor consectetur venenatis. Vivamus faucibus viverra congue.
+      Mauris auctor dapibus porttitor. Fusce dictum molestie nunc, sit amet
+      auctor lacus maximus sit amet. Nullam in porta eros. Nulla tristique
+      aliquam magna, id dignissim odio scelerisque in. Etiam egestas eros eu
+      sollicitudin molestie.<br><br>
+
+      Proin imperdiet nisi sit amet lacus laoreet, eu hendrerit ex aliquam.
+      Vestibulum venenatis sagittis gravida. Aliquam dignissim finibus libero
+      in sodales. Sed at arcu a lectus commodo scelerisque. Aenean egestas
+      velit quis ligula gravida, in venenatis nisl varius. Morbi eleifend nunc
+      et lorem sagittis laoreet. Pellentesque sollicitudin in felis et blandit.
+      Integer tincidunt consectetur auctor. Integer commodo quam vel purus
+      consectetur dapibus. Nunc sed diam et libero scelerisque facilisis. Morbi
+      faucibus ac metus sollicitudin finibus. Sed accumsan tempor tortor at
+      faucibus. Mauris euismod lacus sed dui cursus aliquam. Mauris eget tellus
+      eu velit iaculis vehicula.<br><br>
+
+      Nullam eget accumsan massa. Quisque auctor neque arcu, sed ultricies
+      libero ultricies quis. Integer ullamcorper lacinia mauris, ut vulputate
+      urna vulputate nec. Mauris nunc eros, tristique non finibus vel,
+      tincidunt in ipsum. Cras sit amet maximus lorem. Vestibulum sit amet
+      metus sit amet lorem interdum eleifend in auctor elit. Suspendisse
+      dignissim turpis sapien, nec luctus risus cursus ut. Maecenas tincidunt
+      tortor consectetur ultricies mattis. Quisque semper sem ac ligula
+      elementum malesuada. Proin accumsan ex ut massa malesuada, vel fringilla
+      neque scelerisque. Donec ex sem, sagittis vel purus ut, tempus facilisis
+      turpis. Quisque vulputate velit quis gravida fermentum. In interdum justo
+      at magna faucibus, a bibendum risus dictum.<br><br>
+
+      Suspendisse eget purus quis eros pulvinar blandit rhoncus in lacus. Nunc
+      finibus lobortis molestie. Nunc elementum gravida leo at cursus. Quisque
+      consectetur dolor at dui pellentesque laoreet. Aliquam nunc mauris,
+      rhoncus ut lectus sed, dapibus mattis lectus. Quisque vitae ante ut risus
+      aliquet sagittis. Suspendisse potenti. Aenean et felis pulvinar,
+      efficitur neque molestie, euismod quam. Pellentesque eu arcu vitae nibh
+      pharetra suscipit vel in dolor. Pellentesque habitant morbi tristique
+      senectus et netus et malesuada fames ac turpis egestas. Duis pellentesque
+      laoreet quam at tincidunt. Integer sodales ultricies risus nec semper.<br>
+      <br>
+
+      Pellentesque dignissim commodo pretium. Etiam odio leo, mollis ac libero
+      in, accumsan cursus ligula. Donec molestie est vitae lorem molestie
+      ornare quis finibus metus. Donec odio mi, hendrerit et orci vel, mattis
+      auctor arcu. Quisque faucibus turpis eget magna auctor scelerisque. Etiam
+      et ex vel ligula accumsan finibus at ac massa. Nullam id laoreet urna.
+      Nullam ac ligula ornare, maximus leo et, malesuada lorem. Quisque ut mi
+      nisi. Nam aliquet risus lobortis ipsum condimentum porttitor. Sed commodo
+      elit in eros mattis pharetra. Proin luctus diam vitae est malesuada
+      sollicitudin. Ut a malesuada tellus. Phasellus ultrices venenatis risus
+      vel rutrum. Sed dignissim fermentum nibh, eget consectetur arcu varius
+      eu. In egestas quam nec interdum feugiat.
+    </div>
+
+  </body>
+</html>
