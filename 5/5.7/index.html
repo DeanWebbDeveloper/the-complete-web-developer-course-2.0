@@ -1,0 +1,49 @@
+<html>
+
+    <head>
+
+        <title>jQuery</title>
+
+        <script type="text/javascript" src="../Additional Resources/jquery.min.js"></script>
+
+        <style type="text/css">
+
+            #circle {
+                height: 150px;
+                width: 150px;
+                background-color: green;
+                border-radius: 50%;
+                margin: 10px;
+            }
+
+            .square {
+                height: 150px;
+                width: 150px;
+                background-color: red;
+                margin: 10px;
+            }
+
+        </style>
+
+
+    </head>
+
+    <body>
+
+        <div id="circle"></div>
+
+        <iframe src="http://www.cnn.com"></iframe>
+
+        <script type="text/javascript">
+
+            $("#circle").hover(function() {
+
+                $("iframe").attr("src", "https://www.ecowebhosting.co.uk");
+
+            });
+
+        </script>
+
+    </body>
+
+</html>

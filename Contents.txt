@@ -1,0 +1,149 @@
+
+						Contents
+
+--------------------------------------------------------
+
+
+2	-	HTML 5
+
+	2.2			-	Your First Webpage
+	2.6			- Creating A Full Webpage
+	2.8			- Header Tags
+	2.10		- Paragraph Tags
+	2.12		- Formatting Text
+	2.14		- Unordered Lists
+	2.16		- Ordered Lists
+	2.18		- Images
+	2.20		- Forms
+	2.22		- Tables
+	2.24		- Links
+	2.26		- HTML Entities
+	2.28		- IFrames
+	2.30		- Putting It All Together
+
+
+3	-	CSS 3
+
+	3.3			-	Inline CSS
+	3.5			- Internal CSS
+	3.7			- Classes And IDs
+	3.9			- Divs
+	3.11		- Colors
+	3.13		- Floating
+	3.15		- Positioning
+	3.17		- Margins
+	3.19		- Padding
+	3.21		- Borders
+	3.23		- Fonts
+	3.25		- Styling Text
+	3.27		- Aligning Text
+	3.29		- Styling Links
+	3.31-34	- CSS Project BBC News Website
+
+4	-	JavaScript
+
+	4.2			-	What Is Javascript?
+	4.4			- Internal Javascript
+	4.6			- Accessing Elements
+	4.8			- Responding To A Click
+	4.10		- Changing Website Content
+	4.12		- Manipulating Styles With JavaScript
+	4.14		- Mini Challenge - Disappearing Circles
+	4.16		- Variables
+	4.18		- Arrays
+	4.20		- If Statements
+	4.22		- Javascript Game - How Many Fingers
+	4.24		- Loops
+	4.26		- While Loops
+	4.28		- Functions
+	4.30		- Javascript Project - Reaction Tester
+
+5	-	jQuery
+
+	5.3			-	Using jQuery In Your Webpages
+	5.5			- Detecting A Click
+	5.7			- Changing Website Contents
+	5.9			- Changing Website Styles
+	5.11		- Fading Contents
+	5.13		- Animating Content
+	5.15		- AJAX
+	5.17		- Regular Expressions
+	5.19		- Mini Project - Form Validation
+	5.21		- Introducing jQuery UI
+	5.23		- Draggables & Resizables
+	5.25		- Droppables
+	5.27		- Accordians & Sortables
+	5.29		- jQuery Project - Code Player
+
+6	-	Bootstrap 4
+
+	6.3			- Your First Bootstrap Site
+	6.5			- The Grid System
+	6.7			- Introducing Navbars
+	6.9			- Forms & Tables
+	6.11		- Bootstrap Components
+	6.13		- Modals, Popovers & Tooltips
+	6.15		- ScrollSpy
+	6.17		- Project - App Landing Page
+
+7	-	Wordpress
+
+8	-	PHP
+
+	8.3			-	Hello World With PHP
+	8.5			- Variables
+	8.7			- Arrays
+	8.9			- If Statements
+	8.11		- For And For Each Loops
+	8.13		- While Loops
+	8.15		- GET Variables
+	8.17		- POST Variables
+	8.19		- Sending An Email With PHP
+	8.21		- Mini Project - A Contact Forms
+	8.23		- Getting Contents Of Other Scripts
+	8.25		- Project - Weather Scraper
+
+9	-	MySQL
+
+	9.3			-	Connecting To A Database
+	9.5			-	Retrieving Data From A Database
+	9.7			-	Inserting And Updating Data
+	9.9			-	Looping Through Data
+	9.11		-	Session Variables
+	9.13		-	Cookies
+	9.15		-	Storing Passwords Securely
+	9.18-20	-	Project - Secret Diary
+
+10	-	APIs
+
+	10.3		-	What's The Weather
+	10.5		- The Google Maps API
+	10.7		- Geocoding With Google Maps
+	10.9		- Mini Challenge - Postcode Finder
+	10.11		- The Twitter API
+	10.13		- Challenge - Build A Twitter Client
+
+11	-	Mobile Apps
+
+	11.3		-	Using App.JS
+	11.5		-	Permanent Storage
+	11.7		-	Challenge - Email Client App
+	11.9		-	Introducing Phonegap Build
+	11.10		-	Submitting An App To Google Play
+
+12	-	HTML 5 & CSS 3 Special Features
+
+	12.3		-	HTML5 Form Features
+	12.5		- Audio & Video
+	12.7		- The HTML5 Canvas
+	12.9		- HTML5 Challenge - Clock Face
+	12.11		- Other HTML5 Features
+	12.14		- Advanced Selectors
+	12.16		- Pseudo-Classes
+	12.18		- Gradients & Shadows
+	12.20		- Transformations & Animations
+	12.22		- Layout & Calculations
+
+13	-	Python
+
+	13.4		- Hello World
