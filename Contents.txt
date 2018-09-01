@@ -146,4 +146,9 @@
 
 13	-	Python
 
-	13.4		- Hello World
+	13.4		- Hello World In Python
+	13.6		- Variables & Arrays
+	13.8		- Loops In Python
+	13.10		- If Statements In Python
+	13.12		- Functions In Python
+	13.14		- Python Project - Mastermind
