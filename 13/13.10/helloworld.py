@@ -17,9 +17,10 @@ else:
 
 # Create a program which displays the first 50 prime numbers
 
-number = int(2)
 
-for i in range (2, number):
+
+#Misunderstood task, prime numbers between 1-50
+for i in range (1, 51):
     j = float(1)
 
     isPrimeCount = int(0)
@@ -31,6 +32,26 @@ for i in range (2, number):
 
     if isPrimeCount == 2:
         print str(i) + " is a prime number."
+
+
+#Tried task again, first 50 prime numbers
+numberOfPrimes = 0
+number = 2
+
+while numberOfPrimes < 50:
+
+    isPrime = True
+
+    for i in range(2, number):
+        if number % i == 0:
+            isPrime = False
+
+    if isPrime == True:
+        print number
+        numberOfPrimes += 1
+
+    number += 1
+
 
 
 # Tutor's code
