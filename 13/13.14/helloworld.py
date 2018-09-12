@@ -38,20 +38,19 @@ noOfPins = int(form.getvalue("noOfPins"))
 noOfRows = int(form.getvalue("noOfRows"))
 noOfPinTypes = 8;
 
-
-#Answer row
-answerRow = []
+#Code
+code = []
 
 def setAnswer():
     from random import randint
     for pin in range(1, noOfPins + 1):
-        answerRow.append(randint(1,int(noOfPinTypes)))
+        code.append(randint(1,int(noOfPinTypes)))
 
 if "answerRow" not in form:
     setAnswer()
-    #set answerRow in form variable here
+    #set code in form variable here
 
-print answerRow
+print code
 #If set, play
 if "noOfPins" and "noOfRows" in form:
 

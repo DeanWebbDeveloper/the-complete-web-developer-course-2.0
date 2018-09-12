@@ -4,32 +4,48 @@ print ''
 import cgi
 form = cgi.FieldStorage()
 
-rowNo = 1
-noOfPins = 4
+masterMindDict = {
+    'code': {
+        'pin1': 1,
+        'pin2': 2,
+        'pin3': 3,
+        'pin4': 4
+    }
+}
 
-answerRow = []
+row = 1
 
-def makeAnswerRow():
-    from random import randint
-    for pin in range(1, noOfPins + 1):
-        answerRow.append(randint(1,8))
+print '''
+    <form method='post'>
+        <select name="row''' + str(row) + '''-pin1">
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+        </select>
+        <select name='pin2'>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+        </select>
+        <select name='pin3'>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+        </select>
+        <select name='pin4'>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+        </select>
 
-makeAnswerRow()
-print answerRow
+        <input type='submit' value='Confirm' />
+    </form>
+'''
 
+row += 1
 
-print '<form>'
-for pin in range (1, noOfPins + 1):
-    print '<select name="pin' + str(pin) + '">'
-    print '<option value="" disabled selected>Select your pin</option>'
-    for pinNo in range(1, 8 + 1):
-        print '<option value=' + str(pinNo) + '>' + str(pinNo) + '</option>'
-    print '</select>'
-
-print '&nbsp; <input type="submit" value="Confirm" />'
-print '&nbsp; <button>Clear</button>'
-print '</form>'
-
-if form:
-    for pin in range(1, int(noOfPins) + 1):
-        print form.getvalue('pin' + str(pin));
+print form
