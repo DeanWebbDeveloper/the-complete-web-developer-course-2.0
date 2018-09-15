@@ -10,24 +10,26 @@ form = cgi.FieldStorage()
 
 #Dictionary for providing the code and all rows
 mastermindDict = {
-    'code':   []
 }
 
 #How to set a random code
 def setCode():
     mastermindDict['code'] = []
     from random import randint
-    for pin in range(1, 5):
+    for pin in range(1, 4 + 1):
         mastermindDict['code'].append(randint(1,8))
 
-#If code does not exist, create it
-if not mastermindDict['code']:
-    setCode()
+#Code recorded
+formCode = list(form.getvalue('code'))
+
+#If code already exists, set in the dictionary, otherwise set a code
+if formCode:
+    mastermindDict['code'] = formCode
 else:
-    print 'Code exists'
+    setCode()
 
-print mastermindDict['code']
 
+#Set variables for the answer you give, bools for if the game is won and/or over, and the row value
 global yourAnswer
 yourAnswer = []
 
@@ -37,6 +39,10 @@ gameOver = False
 global gameWin
 gameWin = False
 
+global row
+row = 1
+
+#compare yourAnswer to the mastermind answer
 def checkAnswer():
 
     global fullCorrectPins
@@ -57,14 +63,11 @@ def checkAnswer():
                     halfCorrectPins += 1
                     break   #break so doesn't keep going if already matches
 
-global row
-row = 1
 
 #Create form for user input
 print '<form method=\'get\'>'
 
-for codePin in range(0, 4):
-    print '<input type=\'hidden\' name=\'codePin' + str(codePin + 1) + '\' value=' + str(mastermindDict['code'][codePin]) + '>'
+print '<input type=\'hidden\' name=\'code\' value=' + str(mastermindDict['code'][0]) + str(mastermindDict['code'][1]) + str(mastermindDict['code'][2]) + str(mastermindDict['code'][3]) + '>'
 
 
 for pin in range(1, 4 + 1):
@@ -79,9 +82,6 @@ print '&nbsp;<input type=\'submit\' value=\'Confirm code\' /></form><br />'
 
 
 while gameOver == False:
-
-    print form.getvalue('code')
-
 
     yourAnswer=[]
 
@@ -125,4 +125,3 @@ while gameOver == False:
 
 
 print mastermindDict
-print form
