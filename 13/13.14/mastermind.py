@@ -28,7 +28,7 @@ savedUserAnswers = form.getvalue('userAnswers')
 
 
 
-#Setting code definition
+#Setting code definition as a list
 def setCode():
     mastermindSettings['code'] = []
     from random import randint
@@ -44,38 +44,38 @@ else:
 
 
 #Establish the user input
-userAnswers = []
-row = []
-rowsDone = len(userAnswers)
+userAnswers = {
+    'rowCode': '',
+    'row1': 2135,
+    'row2': 3456
+}
 
 #If user has input previous answers, put them back into userAnswers
 if savedUserAnswers:
-    userAnswers = savedUserAnswers.split(',')
-    for row in range(0, len(userAnswers)):
-        userAnswers[row] =  list(userAnswers[row])
+    userAnswers = eval(savedUserAnswers)
 
-#Create array of the row
+#Create string of the row
 if form.getvalue('pin1'):
+    userAnswers['rowCode'] = None
     for pin in range(1, mastermindSettings['noOfPins'] + 1):
-        row.append(int(form.getvalue('pin' + str(pin))))
+        userAnswers['rowCode'] += str(form.getvalue('pin' + str(pin)))
 
-    userAnswers.append(row)
+    int(userAnswers['rowCode'])
 
-
-print userAnswers
-
+#print userAnswers
 
 #Convert array to string for input value
 codeInputValue = ''.join(str(pin) for pin in mastermindSettings['code'])
 
 #Convert nested array for userAnswers to string for input codeInputValue
-userAnswersInputValue = ','.join(str(''.join([str(pin) for pin in row])) for row in userAnswers)
+userAnswersInputValue = str(userAnswers)
+#','.join(str(''.join([str(pin) for pin in row])) for row in userAnswers)
 
 
 #Create form for user input
 print '<form method=\'get\'>'
 print '<input name=\'code\' value=' + codeInputValue + '>'
-print '<input name=\'userAnswers\' value=\'' + userAnswersInputValue + '\'>'
+print '<input name=\'userAnswers\' value=\"' + userAnswersInputValue + '\">'
 
 for pin in range(1, mastermindSettings['noOfPins'] + 1):
     print '<select name=\'pin' + str(pin) + '\'>'

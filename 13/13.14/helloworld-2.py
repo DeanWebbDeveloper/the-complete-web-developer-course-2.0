@@ -70,6 +70,7 @@ print '<form method=\'get\'>'
 print '<input type=\'hidden\' name=\'code\' value=' + str(mastermindDict['code'][0]) + str(mastermindDict['code'][1]) + str(mastermindDict['code'][2]) + str(mastermindDict['code'][3]) + '>'
 
 
+
 for pin in range(1, 4 + 1):
     print '<select name=\'pin' + str(pin) + '\'>'
 
