@@ -10,72 +10,91 @@ print ''
 import cgi
 form = cgi.FieldStorage()
 
-
-#Set in game variables, in a dictionary
 mastermindSettings = {
     'typesOfPins'   :   8,
     'noOfPins'      :   4,
     'noOfRows'      :   10,
-    'code'          :   []
+    'code'          :   None
 }
 
-
-#Set saved variables
-code = form.getvalue('code')
-noOfPins = form.getvalue('noOfPins')
-noOfRows = form.getvalue('noOfRows')
-savedUserAnswers = form.getvalue('userAnswers')
-
-
-
-#Setting code definition as a list
-def setCode():
-    mastermindSettings['code'] = []
-    from random import randint
-    for pin in range(1, int(mastermindSettings['noOfPins']) + 1):
-        mastermindSettings['code'].append(randint(1, int(mastermindSettings['typesOfPins'])))
-
-#If code exists, put in settings, otherwise create a code
-if code:
-    mastermindSettings['code'] = list(code)
-else:
-    setCode()
-
-
-
-#Establish the user input
 userAnswers = {
-    'rowCode': '',
-    'row1': 2135,
-    'row2': 3456
+    'answerGiven': None,
+    'gameOver': False,
+    'gameWon': False
 }
 
-#If user has input previous answers, put them back into userAnswers
-if savedUserAnswers:
-    userAnswers = eval(savedUserAnswers)
 
-#Create string of the row
-if form.getvalue('pin1'):
-    userAnswers['rowCode'] = None
-    for pin in range(1, mastermindSettings['noOfPins'] + 1):
-        userAnswers['rowCode'] += str(form.getvalue('pin' + str(pin)))
+#Setting all the rows in the userAnswers
+def setRows():
+    for row in range(1, mastermindSettings['noOfRows'] + 1):
+        userAnswers['row' + str(row)] = None
 
-    int(userAnswers['rowCode'])
+setRows()
 
-#print userAnswers
 
-#Convert array to string for input value
-codeInputValue = ''.join(str(pin) for pin in mastermindSettings['code'])
+#Set saved variables from formCode
+saved = {}
+def setSavedFromForm():
+    for key in mastermindSettings:
+        saved[key] = form.getvalue(key)
 
-#Convert nested array for userAnswers to string for input codeInputValue
-userAnswersInputValue = str(userAnswers)
-#','.join(str(''.join([str(pin) for pin in row])) for row in userAnswers)
+    for key in userAnswers:
+        saved[key] = form.getvalue(key)
+
+setSavedFromForm()
+
+
+#If code is present/saved, set the code as the saved code, else make a new one
+def checkCodeExists():
+
+    #Setting code as a string
+    def setCode():
+        mastermindSettings['code'] = ''
+        from random import randint
+        for pin in range(1, int(mastermindSettings['noOfPins']) + 1):
+            mastermindSettings['code'] += str(randint(1, int(mastermindSettings['typesOfPins'])))
+
+    if saved['code']:
+        mastermindSettings['code'] = saved['code']
+    else:
+        setCode()
+
+checkCodeExists()
+
+
+#If rows are present/saved, set the code to the saved code
+def checkRowsExist():
+    for row in range(1, mastermindSettings['noOfRows'] + 1):
+        if saved['row' + str(row)]:
+            userAnswers['row' + str(row)] = saved['row' + str(row)]
+
+checkRowsExist()
+
+
+#if answer given prior, set as answer given
+def setLastAnswerRowGiven():
+    if form.getvalue('pin1'):
+        newRow = ''
+
+        for pin in range(1, mastermindSettings['noOfPins'] + 1):
+            newRow += str(form.getvalue('pin' + str(pin)))
+        userAnswers['answerGiven'] = newRow
+
+        for row in range(1, mastermindSettings['noOfRows'] + 1):
+            if userAnswers['row' + str(row)] is None:
+                userAnswers['row' + str(row)] = userAnswers['answerGiven']
+                break
+
+setLastAnswerRowGiven()
 
 
 #Create form for user input
-print '<form method=\'get\'>'
-print '<input name=\'code\' value=' + codeInputValue + '>'
-print '<input name=\'userAnswers\' value=\"' + userAnswersInputValue + '\">'
+print '<form method=\'post\'>'
+print '<input type="hidden" name=\'code\' value=' + mastermindSettings['code'] + ' />'
+
+for row in range(1, mastermindSettings['noOfRows'] + 1):
+    if userAnswers['row' + str(row)]:
+        print '<input type="hidden" name="row' + str(row) + '" value="' + userAnswers['row' + str(row)] + '" />'
 
 for pin in range(1, mastermindSettings['noOfPins'] + 1):
     print '<select name=\'pin' + str(pin) + '\'>'
@@ -89,21 +108,53 @@ print '&nbsp;<input type=\'submit\' value=\'Confirm code\' /></form><br />'
 
 
 #Comparing provided answer to code
-def checkAnswer():
+def checkAnswer(toCheck):
     fullCorrectPins = 0
     halfCorrectPins = 0
 
     #Give a pin number equal to the number of pins in the code.
     for pinNo in range(0, len(mastermindSettings['code'])):
         #If direct match, fullCorrectPins increases by 1
-        if mastermindSettings['code'][pinNo] == userAnswers[-1]:
+        if mastermindSettings['code'][pinNo] == list(toCheck)[pinNo]:
             fullCorrectPins += 1
         else:
             #Go through each of the pins given as answer
-            for pin in userAnswers[-1]:
+            for pin in list(toCheck):
                 #If matches any other pin, is a match but not by position
                 if pin == mastermindSettings['code'][pinNo]:
                     halfCorrectPins += 1
                     break   #break so doesn't keep going if already matches
 
-checkAnswer()
+    for fullCorrectPin in range(1, fullCorrectPins + 1):
+        print "&#9673;"
+
+    for halfCorrectPin in range(1, halfCorrectPins + 1):
+        print "&#9678;"
+
+    wrongPins = 4 - (fullCorrectPins + halfCorrectPins)
+
+    for wrongPin in range(1, wrongPins + 1):
+        print "&#10005;"
+
+    if fullCorrectPins == 4 :
+        userAnswers['gameWon'] = True
+        userAnswers['gameOver'] = True
+#Print the checks
+for row in range(1, mastermindSettings['noOfRows'] + 1):
+    if userAnswers['row' + str(row)]:
+        print "Row " + "%02d" % (row) + ": "
+        printCode = userAnswers['row' + str(row)]
+        print "&nbsp;&nbsp;&nbsp;" + ("&nbsp;&nbsp;".join(printCode)) + "&nbsp;&nbsp;&nbsp;"
+        checkAnswer(userAnswers['row' + str(row)])
+        print "<br />"
+
+#End result
+
+if userAnswers['row' + str(mastermindSettings['noOfRows'])]:
+    userAnswers['gameOver'] = True
+
+if userAnswers['gameWon'] == True:
+    print "<br />You win! The code was " + (" ".join(str(mastermindSettings['code']))) + "!"
+
+if userAnswers['gameOver'] == True and userAnswers['gameWon'] == False:
+    print "<br />You lose. The code was " + (" ".join(str(mastermindSettings['code']))) + ". Better luck next time!"
