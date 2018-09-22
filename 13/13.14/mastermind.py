@@ -13,7 +13,7 @@ form = cgi.FieldStorage()
 mastermindSettings = {
     'typesOfPins'   :   8,
     'noOfPins'      :   4,
-    'noOfRows'      :   10,
+    'noOfRows'      :   20,
     'code'          :   None
 }
 
@@ -112,18 +112,39 @@ def checkAnswer(toCheck):
     fullCorrectPins = 0
     halfCorrectPins = 0
 
-    #Give a pin number equal to the number of pins in the code.
+    FullCorrectDict = {}
+
+    #Go through each pin in the code
     for pinNo in range(0, len(mastermindSettings['code'])):
-        #If direct match, fullCorrectPins increases by 1
-        if mastermindSettings['code'][pinNo] == list(toCheck)[pinNo]:
+
+        #Find pins that are correct number AND correct position
+        if list(toCheck)[pinNo] == mastermindSettings['code'][pinNo]:
             fullCorrectPins += 1
+            FullCorrectDict[pinNo] = True
         else:
-            #Go through each of the pins given as answer
-            for pin in list(toCheck):
-                #If matches any other pin, is a match but not by position
-                if pin == mastermindSettings['code'][pinNo]:
-                    halfCorrectPins += 1
-                    break   #break so doesn't keep going if already matches
+            FullCorrectDict[pinNo] = False
+
+    listOfFalse = []
+
+    #Create list of pins to check that are false to see if any correct in other positions
+    for pinNo in range(0, len(mastermindSettings['code'])):
+
+        if FullCorrectDict[pinNo] is False:
+            listOfFalse.append(pinNo)
+
+    for pinNo in listOfFalse:
+        print mastermindSettings['code'][pinNo]
+
+
+
+        ###Stopped here, to figure out iterating through each of the pins that
+        ###isn't fully correct for any that are correct but in the wrong
+        ###position. Must also make sure that duplicates are ignored
+
+
+
+
+
 
     for fullCorrectPin in range(1, fullCorrectPins + 1):
         print "&#9673;"
@@ -139,6 +160,8 @@ def checkAnswer(toCheck):
     if fullCorrectPins == 4 :
         userAnswers['gameWon'] = True
         userAnswers['gameOver'] = True
+
+
 #Print the checks
 for row in range(1, mastermindSettings['noOfRows'] + 1):
     if userAnswers['row' + str(row)]:
@@ -148,8 +171,8 @@ for row in range(1, mastermindSettings['noOfRows'] + 1):
         checkAnswer(userAnswers['row' + str(row)])
         print "<br />"
 
-#End result
 
+#End result
 if userAnswers['row' + str(mastermindSettings['noOfRows'])]:
     userAnswers['gameOver'] = True
 
