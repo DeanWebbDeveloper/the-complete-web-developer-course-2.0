@@ -44,6 +44,9 @@ def setSavedFromForm():
 setSavedFromForm()
 
 
+print "<h2>Mastermind</h2>"
+
+
 #If code is present/saved, set the code as the saved code, else make a new one
 def checkCodeExists():
 
@@ -112,7 +115,7 @@ def checkAnswer(toCheck):
     fullCorrectPins = 0
     halfCorrectPins = 0
 
-    FullCorrectDict = {}
+    correctDict = {}
 
     #Go through each pin in the code
     for pinNo in range(0, len(mastermindSettings['code'])):
@@ -120,30 +123,26 @@ def checkAnswer(toCheck):
         #Find pins that are correct number AND correct position
         if list(toCheck)[pinNo] == mastermindSettings['code'][pinNo]:
             fullCorrectPins += 1
-            FullCorrectDict[pinNo] = True
+            correctDict[pinNo] = True
         else:
-            FullCorrectDict[pinNo] = False
+            correctDict[pinNo] = False
 
     listOfFalse = []
 
     #Create list of pins to check that are false to see if any correct in other positions
     for pinNo in range(0, len(mastermindSettings['code'])):
-
-        if FullCorrectDict[pinNo] is False:
+        if correctDict[pinNo] is False:
             listOfFalse.append(pinNo)
 
+    #Go through listOfFalse
     for pinNo in listOfFalse:
-        print mastermindSettings['code'][pinNo]
-
-
-
-        ###Stopped here, to figure out iterating through each of the pins that
-        ###isn't fully correct for any that are correct but in the wrong
-        ###position. Must also make sure that duplicates are ignored
-
-
-
-
+        posCheck = toCheck[pinNo]
+        #Compare to code, if any correct set to True and remove from list so not checked again
+        for pinNo in listOfFalse:
+            if posCheck == mastermindSettings['code'][pinNo]:
+                halfCorrectPins += 1
+                listOfFalse.remove(pinNo)
+                break
 
 
     for fullCorrectPin in range(1, fullCorrectPins + 1):
