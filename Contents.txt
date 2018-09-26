@@ -152,3 +152,7 @@
 	13.10		- If Statements In Python
 	13.12		- Functions In Python
 	13.14		- Python Project - Mastermind
+
+14	-	Bonus Section: Twitter Clone Using MVC
+
+	14.1-5	-	Twitter Clone Using MVC
