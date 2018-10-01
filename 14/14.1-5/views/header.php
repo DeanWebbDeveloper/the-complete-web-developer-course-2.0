@@ -31,8 +31,8 @@
             <a class="nav-link" href="?page=publicprofiles">Public Profiles</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login/Signup</button>
-        </form>
+        <div class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#exampleModalCenter">Login/Signup</button>
+        </div>
       </div>
     </nav>
