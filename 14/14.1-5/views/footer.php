@@ -20,6 +20,7 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="alert alert-danger" id="loginAlert"></div>
         <form>
           <input type="hidden" id="loginActive" name="loginActive" value="1" />
           <div class="form-group">
@@ -72,7 +73,11 @@
                 "&password=" + $("#password").val() +
                 "&loginActive=" + $("#loginActive").val(),
       success:  function(result) {
-                  alert(result);
+                  if (result == "1") {
+                    window.location.assign("https://www.deanwebbdeveloper.com/the_sandbox");
+                  } else {
+                    $("#loginAlert").html(result).show();
+                  };
                 }
     });
 
