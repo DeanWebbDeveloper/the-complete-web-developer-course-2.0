@@ -29,10 +29,13 @@
         $query = "INSERT INTO `users` (`email`, `password`) VALUES ". "('" . mysqli_real_escape_string($link, $_POST['email']) . "', '" . mysqli_real_escape_string($link, $_POST['password']) . "')";
 
         if(mysqli_query($link, $query)) {
+
+          $_SESSION['id'] = mysqli_insert_id($link);          
           $hash   = password_hash(mysqli_real_escape_string($link, $_POST['password']), PASSWORD_DEFAULT);
-          $query  = "UPDATE `users` SET password = '" . $hash . "' WHERE `id` = " . mysqli_insert_id($link) . " LIMIT 1";
+          $query  = "UPDATE `users` SET password = '" . $hash . "' WHERE `id` = " . $_SESSION['id'] . " LIMIT 1";
           mysqli_query($link, $query);
           echo 1;
+
         } else {
           $error = "Couldn't create user - please try again later";
         };
@@ -47,6 +50,7 @@
 
       if (password_verify(mysqli_real_escape_string($link, $_POST['password']), $row['password'])) {
         echo 1;
+        $_SESSION['id'] = $row['id'];
       } else {
         echo "Could not find that username/password combination. Please try again.";
       }

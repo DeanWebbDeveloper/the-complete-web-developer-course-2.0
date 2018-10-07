@@ -6,6 +6,20 @@
   display: none;
 }
 
+.mainContainer {
+  padding: 20px 0;
+}
+
+.time {
+  color: lightgrey;
+}
+
+.tweet {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding:5px;
+  margin: 5px;
+}
 
 
 /* Sticky footer styles
