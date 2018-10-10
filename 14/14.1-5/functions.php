@@ -48,6 +48,23 @@
 
       $whereClause = "";
 
+    } else if ($type == 'isFollowing') {
+
+      $query  = "SELECT * FROM `isFollowing` WHERE `follower` = " . mysqli_real_escape_string($link, $_SESSION['id']);
+      $result = mysqli_query($link, $query);
+
+      $whereClause = "";
+
+      while($row = mysqli_fetch_assoc($result)){
+
+        if($whereClause == "") {
+          $whereClause = "WHERE";
+        } else {
+          $whereClause = "OR";
+        }
+        $whereClause .= " `userid` = " . $row['isFollowing'];
+
+      };
     };
 
     $query = "SELECT * FROM `tweets` " . $whereClause . " ORDER BY `datetime` DESC LIMIT 10";
@@ -70,7 +87,22 @@
 
         echo "<p>" . $row['tweet'] ."</p>";
 
-        echo "<p>Follow</p></div>";
+        echo "<p><a class=\"toggleFollow\" data-userId=\"" . $row['userid'] . "\">";
+
+        $isFollowingQuery  = "SELECT * FROM `isFollowing` WHERE `follower` = " . mysqli_real_escape_string($link, $_SESSION['id'])
+                  . " AND `isFollowing` = " . mysqli_real_escape_string($link, $row['userID']) . " LIMIT 1" ;
+        $isFollowingQueryResult = mysqli_query($link, $isFollowingQuery);
+        if (mysqli_num_rows($isFollowingQueryResult) > 0) {
+
+          echo "Unfollow";
+
+        } else {
+
+          echo "Follow";
+
+        };
+
+        echo"</a></p></div>";
 
       };
 
@@ -95,7 +127,7 @@
     if ($_SESSION['id'] > 0) {
 
       echo
-        "<div class=\"form\ m-0 p-0">
+        "<div class=\"form\ m-0 p-0\">
           <div class=\"form-group\">
             <textarea class=\"form-control\" id=\"tweetContent\"></textarea>
           </div>

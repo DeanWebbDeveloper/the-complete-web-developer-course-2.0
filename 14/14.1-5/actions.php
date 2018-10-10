@@ -22,7 +22,8 @@
 
     if($_POST['loginActive'] == "0") {
 
-      $query  = "SELECT * FROM `users` WHERE `email` = '" . mysqli_real_escape_string($link, $_POST['email']) . "' LIMIT 1";
+      $query  = "SELECT * FROM `users` WHERE `email` = '" .
+                mysqli_real_escape_string($link, $_POST['email']) . "' LIMIT 1";
       $result = mysqli_query($link, $query);
       if (mysqli_num_rows($result) > 0) $error = "That email address is already taken.";
       else {
@@ -30,7 +31,7 @@
 
         if(mysqli_query($link, $query)) {
 
-          $_SESSION['id'] = mysqli_insert_id($link);          
+          $_SESSION['id'] = mysqli_insert_id($link);
           $hash   = password_hash(mysqli_real_escape_string($link, $_POST['password']), PASSWORD_DEFAULT);
           $query  = "UPDATE `users` SET password = '" . $hash . "' WHERE `id` = " . $_SESSION['id'] . " LIMIT 1";
           mysqli_query($link, $query);
@@ -48,7 +49,8 @@
 
       $row = mysqli_fetch_assoc($result);
 
-      if (password_verify(mysqli_real_escape_string($link, $_POST['password']), $row['password'])) {
+      if (password_verify(mysqli_real_escape_string($link, $_POST['password']),
+      $row['password'])) {
         echo 1;
         $_SESSION['id'] = $row['id'];
       } else {
@@ -63,5 +65,28 @@
     };
 
   };
+
+  if($_GET['action'] == 'toggleFollow') {
+    $query  = "SELECT * FROM `isFollowing` WHERE `follower` = " . mysqli_real_escape_string($link, $_SESSION['id'])
+              . " AND `isFollowing` = " . mysqli_real_escape_string($link, $_POST['userID']) . " LIMIT 1" ;
+    $result = mysqli_query($link, $query);
+    if (mysqli_num_rows($result) > 0) {
+
+      $row = mysqli_fetch_assoc($result);
+
+      mysqli_query($link, "DELETE FROM `isFollowing` WHERE id = " .
+      mysqli_real_escape_string($link, $row['id']). " LIMIT 1");
+
+      echo "1";
+
+    } else {
+
+      mysqli_query($link, "INSERT INTO `isFollowing` (`follower`, `isFollowing`) VALUES " . "(" .
+      mysqli_real_escape_string($link, $_SESSION['id']) . ", " . mysqli_real_escape_string($link, $_POST['userID']) . ")");
+
+      echo "2";
+
+    };
+  }
 
 ?>
