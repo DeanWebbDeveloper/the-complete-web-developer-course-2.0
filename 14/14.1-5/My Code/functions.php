@@ -60,14 +60,34 @@
         if($whereClause == "") {
           $whereClause = "WHERE";
         } else {
-          $whereClause = "OR";
+          $whereClause .= " OR";
         }
         $whereClause .= " `userid` = " . $row['isFollowing'];
-
       };
+
+    } else if ($type =="yourtweets") {
+
+      $whereClause = "WHERE `userid` = " . mysqli_real_escape_string($link, $_SESSION['id']);
+
+    } else if ($type =="search") {
+
+      echo "<p>Showing results for '" . mysqli_real_escape_string($link, $_GET['q']) . "':</p>";
+
+      $whereClause = "WHERE `tweet` LIKE '%" . mysqli_real_escape_string($link, $_GET['q']) . "%'";
+
+    } else if (is_numeric($type)) {
+
+      $userQuery        = "SELECT * FROM `users` WHERE id = " . mysqli_real_escape_string($link, $type) . " LIMIT 1";
+      $userQueryResult  = mysqli_query($link, $userQuery);
+      $user             = mysqli_fetch_assoc($userQueryResult);
+
+      echo "<h2>" . mysqli_real_escape_string($link, $user['email']) . "'s Tweets</h2>";
+
+      $whereClause = "WHERE `userid` = " . mysqli_real_escape_string($link, $type);
+
     };
 
-    $query = "SELECT * FROM `tweets` " . $whereClause . " ORDER BY `datetime` DESC LIMIT 10";
+    echo $query = "SELECT * FROM `tweets` " . $whereClause . " ORDER BY `datetime` DESC LIMIT 10";
 
     $result = mysqli_query($link, $query);
 
@@ -83,7 +103,7 @@
         $userQueryResult  = mysqli_query($link, $userQuery);
         $user             = mysqli_fetch_assoc($userQueryResult);
 
-        echo "<div class=\"tweet\"<p>" . $user['email'] . " <span class=\"time\">" . time_since(time() - strtotime($row['datetime'])) . " ago</span>:</p>";
+        echo "<div class=\"tweet\"<p><a href='?page=publicprofiles&userid=" . $user['id'] . "'>". $user['email'] . "</a> <span class=\"time\">" . time_since(time() - strtotime($row['datetime'])) . " ago</span>:</p>";
 
         echo "<p>" . $row['tweet'] ."</p>";
 
@@ -113,12 +133,13 @@
   function displaySearch() {
 
     echo
-    "<div class=\"form-inline\">
-        <div class=\"form-group\">
-          <input type=\"text\" class=\"form-control\" id=\"search\" placeholder=\"Search\" />
-        </div>
-        <button class=\"btn btn-primary\">Search Tweets</button>
-      </div>";
+    "<form class=\"form-inline\">
+      <div class=\"form-group\">
+        <input type=\"hidden\" name=\"page\" value=\"search\" / />
+        <input type=\"text\" name=\"q\" class=\"form-control\" id=\"search\" placeholder=\"Search\" />
+      </div>
+      <button type=\"submit\" class=\"btn btn-primary\">Search Tweets</button>
+    </form>";
 
   };
 
@@ -127,13 +148,31 @@
     if ($_SESSION['id'] > 0) {
 
       echo
-        "<div class=\"form\ m-0 p-0\">
+        "<div id=\"tweetSuccess\" class=\"alert alert-success\">Your tweet was posted successfully</div>
+        <div id=\"tweetFail\" class=\"alert alert-danger\"></div>
+        <div class=\"form\ m-0 p-0\">
           <div class=\"form-group\">
             <textarea class=\"form-control\" id=\"tweetContent\"></textarea>
           </div>
-          <button class=\"btn btn-primary\">Post Tweet</button>
+          <button id=\"postTweetButton\" class=\"btn btn-primary\">Post Tweet</button>
         </div>";
     }
+  };
+
+  function displayUsers() {
+
+    global $link;
+
+    $query = "SELECT * FROM `users` LIMIT 10";
+
+    $result = mysqli_query($link, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+      echo "<p><a href='?page=publicprofiles&userid=" . $row['id'] . "'>". $row['email'] . "</a></p>";
+
+    };
+
   };
 
 ?>

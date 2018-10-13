@@ -21,6 +21,14 @@
   margin: 5px;
 }
 
+#tweetSuccess {
+  display: none;
+}
+
+#tweetFail {
+  display: none;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
